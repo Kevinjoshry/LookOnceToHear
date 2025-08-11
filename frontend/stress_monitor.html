@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stress Detection Monitor</title>
+  <style>
+    /* (styles as before) */
+  </style>
+</head>
+<body>
+
+  <h1>Stress Detection Monitor</h1>
+
+  <div id="stress-level">Loading stress level...</div>
+
+  <div id="alert">⚠️ Stress Level Critical! Take Action!</div>
+  <div id="normal">Stress level normal.</div>
+
+  <button id="toggle-audio">Toggle Audio Filter</button>
+
+  <script>
+    // Update this function to call your backend prediction API once ready
+    async function fetchStressLevel() {
+      // Example: fetch from your API endpoint, replace URL with actual backend endpoint
+      // let response = await fetch('http://localhost:5000/predict');
+      // let data = await response.json();
+      // return data.stressLevel;
+
+      // For demo: random selection
+      const stressLevels = ['No Stress', 'Interruption', 'Time Pressure'];
+      const random = Math.random();
+      if (random < 0.6) return 'No Stress';
+      else if (random < 0.9) return 'Interruption';
+      else return 'Time Pressure';
+    }
+
+    async function updateStressLevel() {
+      const stressLevel = await fetchStressLevel();
+
+      const stressDiv = document.getElementById('stress-level');
+      const alertDiv = document.getElementById('alert');
+      const normalDiv = document.getElementById('normal');
+
+      stressDiv.textContent = `Current Stress Level: ${stressLevel}`;
+
+      if (stressLevel === 'Time Pressure') {
+        alertDiv.style.display = 'block';
+        normalDiv.style.display = 'none';
+      } else {
+        alertDiv.style.display = 'none';
+        normalDiv.style.display = 'block';
+      }
+    }
+
+    document.getElementById('toggle-audio').addEventListener('click', () => {
+      alert('Audio filter toggled (feature placeholder)');
+    });
+
+    updateStressLevel();
+    setInterval(updateStressLevel, 3000);
+  </script>
+
+</body>
+</html>
